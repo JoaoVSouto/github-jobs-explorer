@@ -1,17 +1,17 @@
 <template>
+  <Header />
   <RouterView />
-
-  <div id="hello-world">
-    <h1>hello mundo</h1>
-  </div>
 </template>
 
-<style lang="scss" scoped>
-#hello-world {
-  color: $primary;
+<script lang="ts">
+import { defineComponent } from 'vue';
 
-  @include media('>=tablet') {
-    background-color: #ff0;
-  }
-}
-</style>
+import Header from './components/Header.vue';
+
+export default defineComponent({
+  name: 'App',
+  components: {
+    Header,
+  },
+});
+</script>

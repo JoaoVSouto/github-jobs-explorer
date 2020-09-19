@@ -14,7 +14,12 @@ module.exports = {
         .use('sass-resources-loader')
         .loader('sass-resources-loader')
         .options({
-          resources: ['./src/styles/_colors.scss', './src/styles/_mixins.scss'],
+          resources: [
+            './src/styles/_colors.scss',
+            './src/styles/_mixins.scss',
+            './src/styles/_font-weights.scss',
+            './src/styles/_fonts.scss',
+          ],
         })
         .end();
     });

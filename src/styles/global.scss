@@ -1,5 +1,6 @@
 @import "mixins";
 @import "colors";
+@import "fonts";
 
 :root {
   font-size: 60%;
@@ -34,7 +35,7 @@ body,
 input,
 textarea,
 button {
-  font-family: 'Roboto', sans-serif;
+  font-family: $roboto;
   font-size: 1.6rem;
 }
 
