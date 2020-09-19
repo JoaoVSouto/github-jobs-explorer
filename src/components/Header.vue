@@ -21,6 +21,7 @@ a {
   font-size: 2.4rem;
   font-weight: $thin;
   color: $github;
+  line-height: 1;
 
   span.github {
     font-weight: $bold;
