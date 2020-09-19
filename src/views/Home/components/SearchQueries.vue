@@ -75,6 +75,20 @@ export default defineComponent({
     const isFullTime = ref(false);
     const newPlace = ref('');
 
+    function setPlacesToLocalStorage() {
+      localStorage.setItem('@gh-jobs/places', JSON.stringify(places.value));
+    }
+
+    (function getPlacesFromLocalStorage() {
+      const localStoragePlaces = localStorage.getItem('@gh-jobs/places');
+
+      if (!localStoragePlaces) return;
+
+      const parsedPlaces = JSON.parse(localStoragePlaces);
+
+      places.value = parsedPlaces;
+    }());
+
     function handlePlaceChange(id: string) {
       const updatedPlaces = places.value.map((place) => ({
         ...place,
@@ -99,6 +113,8 @@ export default defineComponent({
       });
 
       newPlace.value = '';
+
+      setPlacesToLocalStorage();
     }
 
     return {
