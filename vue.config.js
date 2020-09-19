@@ -3,7 +3,7 @@ module.exports = {
     config.plugin('html').tap(args => {
       const [firstArgs] = args
 
-      firstArgs.title = 'Vue 3 Initials'
+      firstArgs.title = 'GH Jobs Explorer'
 
       return args
     })
