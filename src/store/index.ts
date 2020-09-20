@@ -33,6 +33,11 @@ interface Query {
   value: Queries[keyof Queries];
 }
 
+interface UpdateQueriesOptions {
+  query: Query;
+  cancelJobsRequest?: boolean;
+}
+
 interface Store {
   jobs: Job[];
   queries: Queries;
@@ -73,8 +78,11 @@ export default createStore<Store>({
 
       commit('setJobs', jobs);
     },
-    updateQueries({ commit, dispatch }, query: Query) {
-      commit('setQuery', query);
+    updateQuery({ commit, dispatch }, options: UpdateQueriesOptions) {
+      commit('setQuery', options.query);
+
+      if (options.cancelJobsRequest) return;
+
       dispatch('requestJobs');
     },
   },

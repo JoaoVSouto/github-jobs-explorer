@@ -38,6 +38,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useStore } from 'vuex';
 
 import { format } from '../../../utils/format';
 
@@ -74,6 +75,8 @@ export default defineComponent({
     ]);
     const isFullTime = ref(true);
     const newPlace = ref('');
+
+    const store = useStore();
 
     function setPlacesToLocalStorage() {
       localStorage.setItem('@gh-jobs/places', JSON.stringify(places.value));
@@ -116,6 +119,21 @@ export default defineComponent({
 
       setPlacesToLocalStorage();
     }
+
+    const selectedPlace = places.value.find((place) => place.selected);
+    store.dispatch('updateQuery', {
+      query: {
+        name: 'location',
+        value: selectedPlace?.label,
+      },
+      cancelJobsRequest: true,
+    });
+    store.dispatch('updateQuery', {
+      query: {
+        name: 'full_time',
+        value: isFullTime,
+      },
+    });
 
     return {
       places,
