@@ -1,173 +1,45 @@
 <template>
   <div class="job-cards-container">
-    <div class="job-card">
-      <div class="job-card__img">
-        <img
-          src="https://api.adorable.io/avatars/285/abott@adorable.png"
-          alt="logo"
-        />
-      </div>
-
-      <div class="job-card__info">
-        <strong>Kasisto</strong>
-        <p class="job-title">Front-End Software Engineer</p>
-        <div class="job-card__info__details">
-          <span class="job-type">Full time</span>
-
-          <div class="job-infos-container">
-            <span class="job-info">
-              <i class="material-icons">public</i>
-              New York
-            </span>
-            <span class="job-info">
-              <i class="material-icons">schedule</i>
-              5 days ago
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="job-card">
-      <div class="job-card__img">
-        <div class="not-found-img">not found</div>
-      </div>
-
-      <div class="job-card__info">
-        <strong>Kasisto</strong>
-        <p class="job-title">Front-End Software Engineer</p>
-        <div class="job-card__info__details">
-          <span class="job-type">Part time</span>
-
-          <div class="job-infos-container">
-            <span class="job-info">
-              <i class="material-icons">public</i>
-              New York
-            </span>
-            <span class="job-info">
-              <i class="material-icons">schedule</i>
-              5 days ago
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <JobCard
+      id="68b39341-da49-433b-9815-4e14b960925e"
+      logo="https://jobs.github.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbE9JIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--e7e0d3cf39e53fcac111b65ff8812c0dec07559f/Agiloft%20Logo%20plain%20(Indeed).png"
+      company="Agiloft"
+      position="QA Engineer, Manual Testing"
+      type="Full Time"
+      location="Moscow, Russia"
+      createdAt="Mon Aug 17 18:11:43 UTC 2020"
+    />
+    <JobCard
+      id="61bf5614-6078-4799-bf13-aba59fd01440"
+      logo="https://jobs.github.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBb2FLIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--9987d9dbf7cb8a4fc006e213e728ed15cfee5b8f/logo-navy-opt.png"
+      company="Clinical Research IO"
+      position="Senior Software Engineer (Full Stack)"
+      type="Full Time"
+      location="USA/ Remote"
+      createdAt="Fri Sep 18 18:18:33 UTC 2020"
+    />
+    <JobCard
+      id="e1e83aec-5ea4-4d36-80ed-012fa0083ff8"
+      logo="https://jobs.github.com/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBbm1LIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--8c71e4cb600926b667f1b81fc071dff022b0e797/logo2.jpg"
+      company="Mastermind"
+      position="🌴 Front End developer (Intermediate + Senior positions)
+                for live video startup @ Mastermind"
+      type="Full Time"
+      location="Anywhere on Planet Earth"
+      createdAt="Fri Sep 18 13:05:12 UTC 2020"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import JobCard from './JobCard.vue';
+
 export default defineComponent({
   name: 'JobsList',
+  components: {
+    JobCard,
+  },
 });
 </script>
-
-<style lang="scss" scoped>
-.job-card {
-  background-color: $inputBg;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-  padding: 1.2rem;
-  display: flex;
-
-  + .job-card {
-    margin-top: 2.4rem;
-
-    @include media('>=tablet') {
-      margin-top: 3.2rem;
-    }
-  }
-
-  &__img {
-    img {
-      height: 90px;
-      width: 90px;
-      object-fit: cover;
-      border-radius: 4px;
-      display: block;
-    }
-
-    .not-found-img {
-      height: 90px;
-      width: 90px;
-      background-color: $notFoundBg;
-      border-radius: 4px;
-      display: grid;
-      place-items: center;
-      font-size: 1.2rem;
-      font-weight: $medium;
-      color: $notFoundColor;
-    }
-  }
-
-  &__info {
-    margin-left: 1.6rem;
-    flex: 1;
-
-    strong {
-      font-size: 1.2rem;
-      font-weight: $bold;
-      color: $secondary;
-    }
-
-    .job-title {
-      font-size: 1.6rem;
-      color: $secondary;
-      font-weight: $regular;
-      margin-top: 0.8rem;
-
-      @include media('>=tablet') {
-        font-size: 1.8rem;
-      }
-    }
-
-    &__details {
-      display: flex;
-      flex-direction: column;
-      margin-top: 1.4rem;
-
-      .job-type {
-        font-size: 1.2rem;
-        color: $secondary;
-        font-weight: $bold;
-        padding: 0.6rem 0.8rem;
-        border: 1px solid $secondary;
-        border-radius: 4px;
-        align-self: flex-start;
-      }
-
-      .job-infos-container {
-        margin-top: 2.7rem;
-        display: flex;
-        align-items: center;
-
-        .job-info {
-          display: flex;
-          align-items: center;
-          color: $tertiary;
-          font-size: 1.2rem;
-          font-weight: $medium;
-
-          i.material-icons {
-            margin-right: 0.75rem;
-            font-size: 1.5rem;
-          }
-
-          + .job-info {
-            margin-left: 2.85rem;
-          }
-        }
-      }
-
-      @include media('>=tablet') {
-        flex-direction: row;
-        justify-content: space-between;
-        margin-top: 1.2rem;
-
-        .job-infos-container {
-          margin-top: 0;
-        }
-      }
-    }
-  }
-}
-</style>
