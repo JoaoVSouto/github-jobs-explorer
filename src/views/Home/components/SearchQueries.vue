@@ -37,7 +37,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import {
+  defineComponent, ref, computed, onUpdated,
+} from 'vue';
 import { useStore } from 'vuex';
 
 import { format } from '../../../utils/format';
@@ -73,8 +75,18 @@ export default defineComponent({
         selected: false,
       },
     ]);
+    const selectedPlace = computed(() => places.value.find((place) => place.selected));
     const isFullTime = ref(true);
     const newPlace = ref('');
+
+    const isFullTimeQuery = computed(() => ({
+      name: 'full_time',
+      value: isFullTime.value,
+    }));
+    const locationQuery = computed(() => ({
+      name: 'location',
+      value: selectedPlace.value?.label,
+    }));
 
     const store = useStore();
 
@@ -120,19 +132,14 @@ export default defineComponent({
       setPlacesToLocalStorage();
     }
 
-    const selectedPlace = places.value.find((place) => place.selected);
-    store.dispatch('updateQuery', {
-      query: {
-        name: 'location',
-        value: selectedPlace?.label,
-      },
-      cancelJobsRequest: true,
-    });
-    store.dispatch('updateQuery', {
-      query: {
-        name: 'full_time',
-        value: isFullTime,
-      },
+    function dispatchUpdateQueries() {
+      store.dispatch('updateQueries', [isFullTimeQuery.value, locationQuery.value]);
+    }
+
+    dispatchUpdateQueries();
+
+    onUpdated(() => {
+      dispatchUpdateQueries();
     });
 
     return {

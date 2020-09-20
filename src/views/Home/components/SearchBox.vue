@@ -22,13 +22,9 @@ export default defineComponent({
     const store = useStore();
 
     function handleSubmit() {
-      if (!searchTerm.value) return;
-
       store.dispatch('updateQuery', {
-        query: {
-          name: 'description',
-          value: searchTerm.value,
-        },
+        name: 'description',
+        value: searchTerm.value,
       });
 
       searchTerm.value = '';
