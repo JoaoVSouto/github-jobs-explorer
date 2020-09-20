@@ -14,7 +14,9 @@
         <div class="job-infos-container">
           <span class="job-info">
             <i class="material-icons">public</i>
-            {{ location }}
+            <span class="job-info__location">
+              {{ location }}
+            </span>
           </span>
           <span class="job-info">
             <i class="material-icons">schedule</i>
@@ -160,6 +162,17 @@ export default defineComponent({
           color: $tertiary;
           font-size: 1.2rem;
           font-weight: $medium;
+
+          &__location {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 19vw;
+
+            @include media('>=tablet') {
+              max-width: 15vw;
+            }
+          }
 
           i.material-icons {
             margin-right: 0.75rem;
