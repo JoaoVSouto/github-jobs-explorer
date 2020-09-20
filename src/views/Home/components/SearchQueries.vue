@@ -52,19 +52,19 @@ export default defineComponent({
   setup() {
     const places = ref<Place[]>([
       {
+        id: 'remote',
+        label: 'Remote',
+        selected: true,
+      },
+      {
         id: 'london',
         label: 'London',
         selected: false,
       },
       {
-        id: 'amsterdam',
-        label: 'Amsterdam',
-        selected: false,
-      },
-      {
         id: 'new-york',
         label: 'New York',
-        selected: true,
+        selected: false,
       },
       {
         id: 'berlin',
