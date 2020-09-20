@@ -24,14 +24,14 @@ export default defineComponent({
     function handleSubmit() {
       if (!searchTerm.value) return;
 
-      searchTerm.value = '';
-
       store.dispatch('updateQuery', {
         query: {
           name: 'description',
           value: searchTerm.value,
         },
       });
+
+      searchTerm.value = '';
     }
 
     return {
