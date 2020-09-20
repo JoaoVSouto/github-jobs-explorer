@@ -1,5 +1,5 @@
 <template>
-  <div class="job-card">
+  <RouterLink class="job-card" :to="{ name: 'Job', params: { id } }">
     <div class="job-card__img">
       <img v-if="logo" :src="logo" :alt="company" />
       <div v-else class="not-found-img">not found</div>
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </RouterLink>
 </template>
 
 <script lang="ts">
@@ -76,6 +76,12 @@ export default defineComponent({
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
   padding: 1.2rem;
   display: flex;
+  transition: transform 0.2s;
+
+  &:hover,
+  &:focus {
+    transform: translateY(-5px);
+  }
 
   + .job-card {
     margin-top: 2.4rem;
