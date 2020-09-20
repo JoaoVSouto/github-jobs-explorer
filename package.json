@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.20.0",
     "core-js": "^3.6.5",
     "dayjs": "^1.8.36",
     "include-media": "^1.4.9",
@@ -54,7 +55,8 @@
     },
     "rules": {
       "import/prefer-default-export": "off",
-      "class-methods-use-this": "off"
+      "class-methods-use-this": "off",
+      "@typescript-eslint/camelcase": "off"
     }
   },
   "browserslist": [

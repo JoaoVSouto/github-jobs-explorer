@@ -13,14 +13,16 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'SearchBox',
   setup() {
     const searchTerm = ref('');
+    const store = useStore();
 
     function handleSubmit() {
-      console.log('form submitted!', searchTerm.value);
+      store.dispatch('requestJobs');
     }
 
     return {

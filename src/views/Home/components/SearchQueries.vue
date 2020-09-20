@@ -72,7 +72,7 @@ export default defineComponent({
         selected: false,
       },
     ]);
-    const isFullTime = ref(false);
+    const isFullTime = ref(true);
     const newPlace = ref('');
 
     function setPlacesToLocalStorage() {
