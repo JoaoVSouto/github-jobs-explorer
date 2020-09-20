@@ -3,18 +3,21 @@
 
   <div class="jobs-container">
     <SearchQueries />
+    <JobsList />
   </div>
 </template>
 
 <script>
 import SearchBox from './components/SearchBox.vue';
 import SearchQueries from './components/SearchQueries.vue';
+import JobsList from './components/JobsList.vue';
 
 export default {
   name: 'Home',
   components: {
     SearchBox,
     SearchQueries,
+    JobsList,
   },
 };
 </script>
