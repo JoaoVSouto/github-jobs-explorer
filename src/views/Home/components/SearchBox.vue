@@ -22,7 +22,12 @@ export default defineComponent({
     const store = useStore();
 
     function handleSubmit() {
-      store.dispatch('requestJobs');
+      if (!searchTerm.value) return;
+
+      store.dispatch('updateQueries', {
+        name: 'description',
+        value: searchTerm.value,
+      });
     }
 
     return {

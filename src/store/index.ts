@@ -28,6 +28,11 @@ interface Queries {
   full_time: boolean;
 }
 
+interface Query {
+  name: keyof Queries;
+  value: Queries[keyof Queries];
+}
+
 interface Store {
   jobs: Job[];
   queries: Queries;
@@ -45,6 +50,9 @@ export default createStore<Store>({
   mutations: {
     setJobs(state, jobs: Job[]) {
       state.jobs = jobs;
+    },
+    setQuery(state, query: Query) {
+      state.queries[query.name] = query.value as never;
     },
   },
   actions: {
@@ -64,6 +72,10 @@ export default createStore<Store>({
       }));
 
       commit('setJobs', jobs);
+    },
+    updateQueries({ commit, dispatch }, query: Query) {
+      commit('setQuery', query);
+      dispatch('requestJobs');
     },
   },
 });
