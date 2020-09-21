@@ -7,7 +7,7 @@
     </h3>
     <template v-else>
       <JobCard
-        v-for="job in jobs[0]"
+        v-for="job in jobs[currentPage]"
         :key="job.id"
         :id="job.id"
         :logo="job.logo"
@@ -20,17 +20,79 @@
 
       <div class="pagination-container">
         <div class="pagination">
-          <button class="page arrow" disabled>
+          <button
+            class="page arrow"
+            :disabled="currentPage === 0"
+            @click="prevPage"
+          >
             <i class="material-icons">navigate_before</i>
           </button>
-          <button class="page active">1</button>
-          <button class="page">2</button>
-          <button class="page">3</button>
-          <div class="ellipsis">
-            <i class="material-icons">more_horiz</i>
-          </div>
-          <button class="page">10</button>
-          <button class="page arrow">
+          <template v-if="pagesQuantity <= 5">
+            <button
+              class="page"
+              v-for="pageNumber in pagesQuantity"
+              :class="{ active: currentPage + 1 === pageNumber }"
+              :key="pageNumber"
+              @click="setPage(pageNumber - 1)"
+            >
+              {{ pageNumber }}
+            </button>
+          </template>
+          <template v-else>
+            <button
+              class="page"
+              :class="{ active: currentPage + 1 === 1 }"
+              @click="setPage(0)"
+            >
+              1
+            </button>
+            <div class="ellipsis" v-if="!isOnFirstThreePages">
+              <i class="material-icons">more_horiz</i>
+            </div>
+            <template v-else>
+              <button
+                class="page"
+                v-for="pageNumber in firstBlock"
+                :class="{ active: currentPage + 1 === pageNumber }"
+                :key="pageNumber"
+                @click="setPage(pageNumber - 1)"
+              >
+                {{ pageNumber }}
+              </button>
+            </template>
+            <button
+              v-if="!isOnFirstThreePages && !isOnLastThreePages"
+              class="page active"
+            >
+              {{ currentPage + 1 }}
+            </button>
+            <div class="ellipsis" v-if="!isOnLastThreePages">
+              <i class="material-icons">more_horiz</i>
+            </div>
+            <template v-else>
+              <button
+                class="page"
+                v-for="pageNumber in lastBlock"
+                :class="{ active: currentPage + 1 === pageNumber }"
+                :key="pageNumber"
+                @click="setPage(pageNumber - 1)"
+              >
+                {{ pageNumber }}
+              </button>
+            </template>
+            <button
+              class="page"
+              :class="{ active: currentPage + 1 === pagesQuantity }"
+              @click="setPage(pagesQuantity - 1)"
+            >
+              {{ pagesQuantity }}
+            </button>
+          </template>
+          <button
+            class="page arrow"
+            :disabled="currentPage === pagesQuantity - 1"
+            @click="nextPage"
+          >
             <i class="material-icons">navigate_next</i>
           </button>
         </div>
@@ -52,13 +114,42 @@ export default defineComponent({
     JobCard,
     Loading,
   },
+  data: () => ({
+    currentPage: 0,
+  }),
+  methods: {
+    setPage(page: number) {
+      this.currentPage = page;
+    },
+    prevPage() {
+      this.currentPage -= 1;
+    },
+    nextPage() {
+      this.currentPage += 1;
+    },
+  },
   computed: {
     ...mapState({
       isLoading: 'isJobsLoading',
     }),
     ...mapGetters({
       jobs: 'jobsSplitted',
+      pagesQuantity: 'pagesQuantity',
     }),
+    firstBlock() {
+      return [2, 3];
+    },
+    lastBlock() {
+      const pagesQuantity = this.pagesQuantity as number;
+
+      return [pagesQuantity - 2, pagesQuantity - 1];
+    },
+    isOnFirstThreePages(): boolean {
+      return this.currentPage < 3;
+    },
+    isOnLastThreePages(): boolean {
+      return this.currentPage >= this.pagesQuantity - 3;
+    },
   },
 });
 </script>

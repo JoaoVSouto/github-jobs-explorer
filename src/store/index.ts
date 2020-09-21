@@ -36,15 +36,15 @@ interface Query {
 
 interface Store {
   jobs: Job[];
+  MAX_JOBS_PER_PAGE: number;
   isJobsLoading: boolean;
   queries: Queries;
 }
 
-const MAX_JOBS_PER_PAGE = 5;
-
 export default createStore<Store>({
   state: {
     jobs: [],
+    MAX_JOBS_PER_PAGE: 5,
     isJobsLoading: false,
     queries: {
       description: '',
@@ -67,23 +67,27 @@ export default createStore<Store>({
     async requestJobs({ state, commit }) {
       commit('setLoading', true);
 
-      const { data } = await api.get<GithubJobResponse[]>('', {
-        params: state.queries,
-      });
+      try {
+        const { data } = await api.get<GithubJobResponse[]>('', {
+          params: state.queries,
+        });
 
-      const jobs = data.map((job) => ({
-        id: job.id,
-        logo: job.company_logo,
-        company: job.company,
-        position: job.title,
-        type: job.type,
-        location: job.location,
-        createdAt: job.created_at,
-      }));
+        const jobs = data.map((job) => ({
+          id: job.id,
+          logo: job.company_logo,
+          company: job.company,
+          position: job.title,
+          type: job.type,
+          location: job.location,
+          createdAt: job.created_at,
+        }));
 
-      commit('setJobs', jobs);
-
-      commit('setLoading', false);
+        commit('setJobs', jobs);
+      } catch {
+        commit('setJobs', []);
+      } finally {
+        commit('setLoading', false);
+      }
     },
     updateQuery({ commit, dispatch }, query: Query) {
       commit('setQuery', query);
@@ -100,7 +104,10 @@ export default createStore<Store>({
   },
   getters: {
     jobsSplitted(state) {
-      return chunk(state.jobs, MAX_JOBS_PER_PAGE);
+      return chunk(state.jobs, state.MAX_JOBS_PER_PAGE);
+    },
+    pagesQuantity(state) {
+      return Math.ceil(state.jobs.length / state.MAX_JOBS_PER_PAGE);
     },
   },
 });
