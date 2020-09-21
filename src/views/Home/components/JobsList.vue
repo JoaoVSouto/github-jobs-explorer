@@ -1,6 +1,10 @@
 <template>
   <div class="job-cards-container">
     <Loading v-if="isLoading" />
+    <h3 v-else-if="jobs.length === 0" class="jobs-not-found">
+      <span class="sad-face">:(</span>
+      Ooops... We could not find any jobs.
+    </h3>
     <JobCard
       v-else
       v-for="job in jobs"
@@ -35,3 +39,17 @@ export default defineComponent({
   }),
 });
 </script>
+
+<style lang="scss" scoped>
+.jobs-not-found {
+  text-align: center;
+  font: $semi-bold 1.8rem $montserrat;
+  color: $tertiary;
+
+  .sad-face {
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+}
+</style>
