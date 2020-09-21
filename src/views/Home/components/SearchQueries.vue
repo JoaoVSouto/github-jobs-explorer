@@ -132,11 +132,9 @@ export default defineComponent({
       setPlacesToLocalStorage();
     }
 
-    function dispatchUpdateQueries() {
+    (function dispatchUpdateQueries() {
       store.dispatch('updateQueries', [isFullTimeQuery.value, locationQuery.value]);
-    }
-
-    dispatchUpdateQueries();
+    }());
 
     watch(places, () => {
       store.dispatch('updateQuery', locationQuery.value);

@@ -94,12 +94,10 @@ export default createStore<Store>({
 
       dispatch('requestJobs');
     },
-    updateQueries({ commit, dispatch }, queries: Query[]) {
+    updateQueries({ commit }, queries: Query[]) {
       queries.forEach((query) => {
         commit('setQuery', query);
       });
-
-      dispatch('requestJobs');
     },
   },
   getters: {

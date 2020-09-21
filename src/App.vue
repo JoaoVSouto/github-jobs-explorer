@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
@@ -17,6 +18,11 @@ export default defineComponent({
   components: {
     Header,
     Footer,
+  },
+  setup() {
+    const store = useStore();
+
+    store.dispatch('requestJobs');
   },
 });
 </script>
