@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import {
-  defineComponent, ref, computed, onUpdated,
+  defineComponent, ref, computed, watch,
 } from 'vue';
 import { useStore } from 'vuex';
 
@@ -138,8 +138,12 @@ export default defineComponent({
 
     dispatchUpdateQueries();
 
-    onUpdated(() => {
-      dispatchUpdateQueries();
+    watch(places, () => {
+      store.dispatch('updateQuery', locationQuery.value);
+    });
+
+    watch(isFullTime, () => {
+      store.dispatch('updateQuery', isFullTimeQuery.value);
     });
 
     return {
