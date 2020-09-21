@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import chunk from 'lodash.chunk';
 
 import api from '../services/api';
 
@@ -38,6 +39,8 @@ interface Store {
   isJobsLoading: boolean;
   queries: Queries;
 }
+
+const MAX_JOBS_PER_PAGE = 5;
 
 export default createStore<Store>({
   state: {
@@ -93,6 +96,11 @@ export default createStore<Store>({
       });
 
       dispatch('requestJobs');
+    },
+  },
+  getters: {
+    jobsSplitted(state) {
+      return chunk(state.jobs, MAX_JOBS_PER_PAGE);
     },
   },
 });
