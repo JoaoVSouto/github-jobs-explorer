@@ -1,6 +1,8 @@
 <template>
   <div class="job-cards-container">
+    <Loading v-if="isLoading" />
     <JobCard
+      v-else
       v-for="job in jobs"
       :key="job.id"
       :id="job.id"
@@ -19,12 +21,17 @@ import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 
 import JobCard from './JobCard.vue';
+import Loading from '../../../components/Loading.vue';
 
 export default defineComponent({
   name: 'JobsList',
   components: {
     JobCard,
+    Loading,
   },
-  computed: mapState(['jobs']),
+  computed: mapState({
+    jobs: 'jobs',
+    isLoading: 'isJobsLoading',
+  }),
 });
 </script>

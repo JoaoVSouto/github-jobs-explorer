@@ -35,12 +35,14 @@ interface Query {
 
 interface Store {
   jobs: Job[];
+  isJobsLoading: boolean;
   queries: Queries;
 }
 
 export default createStore<Store>({
   state: {
     jobs: [],
+    isJobsLoading: false,
     queries: {
       description: '',
       location: '',
@@ -54,9 +56,14 @@ export default createStore<Store>({
     setQuery(state, query: Query) {
       state.queries[query.name] = query.value as never;
     },
+    setLoading(state, loading: boolean) {
+      state.isJobsLoading = loading;
+    },
   },
   actions: {
     async requestJobs({ state, commit }) {
+      commit('setLoading', true);
+
       const { data } = await api.get<GithubJobResponse[]>('', {
         params: state.queries,
       });
@@ -72,6 +79,8 @@ export default createStore<Store>({
       }));
 
       commit('setJobs', jobs);
+
+      commit('setLoading', false);
     },
     updateQuery({ commit, dispatch }, query: Query) {
       commit('setQuery', query);
