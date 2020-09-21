@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
-import dayjs from '../../../services/dayjs';
+import { format } from '../../../utils/format';
 
 export default defineComponent({
   name: 'JobCard',
@@ -63,7 +63,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const parsedCreatedAt = ref(dayjs().to(props.createdAt));
+    const parsedCreatedAt = ref(format.dateTime(props.createdAt));
 
     return {
       parsedCreatedAt,

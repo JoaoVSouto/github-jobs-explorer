@@ -68,7 +68,7 @@ export default createStore<Store>({
       commit('setLoading', true);
 
       try {
-        const { data } = await api.get<GithubJobResponse[]>('', {
+        const { data } = await api.get<GithubJobResponse[]>('positions.json', {
           params: state.queries,
         });
 
