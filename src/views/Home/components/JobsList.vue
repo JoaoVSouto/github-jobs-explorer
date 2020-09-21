@@ -173,7 +173,11 @@ export default defineComponent({
   .pagination {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
+
+    @include media('>=tablet') {
+      justify-content: flex-end;
+    }
 
     .page,
     .ellipsis {
