@@ -8,39 +8,80 @@
 
       <div class="how-to-apply">
         <h5>How to apply</h5>
-        <div v-html="job.how_to_apply"></div>
+
+        <template v-if="isLoading">
+          <ShimmerLoading
+            v-for="i in [3, 2, 1]"
+            :key="i"
+            :width="i * 30"
+            :height="15"
+          />
+        </template>
+        <div v-else v-html="job.how_to_apply"></div>
       </div>
     </div>
     <div class="right-content">
-      <div class="job-title-type">
+      <ShimmerLoading v-if="isLoading" />
+      <div v-else class="job-title-type">
         <h2>{{ job.title }}</h2>
         <span>{{ job.type }}</span>
       </div>
 
       <p class="created-at">
         <i class="material-icons">schedule</i>
-        {{ jobParsedCreatedAt }}
+        <ShimmerLoading v-if="isLoading" :height="15" :width="30" />
+        <template v-else>
+          {{ jobParsedCreatedAt }}
+        </template>
       </p>
 
       <div class="company-info">
-        <img
-          v-if="job.company_logo"
-          :src="job.company_logo"
-          :alt="job.company"
-          class="company-info__logo"
+        <ShimmerLoading
+          v-if="isLoading"
+          :height="60"
+          :width="60"
+          widthUnit="px"
+          :borderRadius="4"
         />
-        <div v-else class="not-found-img">not found</div>
+        <template v-else>
+          <img
+            v-if="job.company_logo"
+            :src="job.company_logo"
+            :alt="job.company"
+            class="company-info__logo"
+          />
+          <div v-else class="not-found-img">not found</div>
+        </template>
 
         <div class="company-info__name-place">
-          <strong>{{ job.company }}</strong>
+          <ShimmerLoading
+            v-if="isLoading"
+            :height="21"
+            :width="150"
+            widthUnit="px"
+          />
+          <strong v-else>{{ job.company }}</strong>
           <span>
             <i class="material-icons">public</i>
-            {{ job.location }}
+            <ShimmerLoading v-if="isLoading" :height="15" />
+            <template v-else>
+              {{ job.location }}
+            </template>
           </span>
         </div>
       </div>
 
-      <div class="job-description" v-html="job.description"></div>
+      <div class="job-description">
+        <template v-if="isLoading">
+          <ShimmerLoading
+            v-for="i in [5, 4, 3, 2, 1]"
+            :key="i"
+            :width="i * 20"
+            :height="30"
+          />
+        </template>
+        <div v-else v-html="job.description"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -48,6 +89,8 @@
 <script lang="ts">
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+
+import ShimmerLoading from '../../components/ShimmerLoading.vue';
 
 import api from '../../services/api';
 
@@ -66,6 +109,9 @@ interface GithubJobResponse {
 
 export default {
   name: 'Job',
+  components: {
+    ShimmerLoading,
+  },
   setup() {
     const route = useRoute();
     const { id } = route.params;
@@ -73,14 +119,23 @@ export default {
     const job = ref<GithubJobResponse>({} as GithubJobResponse);
     const jobParsedCreatedAt = computed(() => format.dateTime(job.value.created_at));
 
+    const isLoading = ref(true);
+
     (async function getJobData() {
-      const { data } = await api.get<GithubJobResponse>(`positions/${id}.json`);
-      job.value = data;
+      try {
+        const { data } = await api.get<GithubJobResponse>(`positions/${id}.json`);
+        job.value = data;
+      } catch {
+        //
+      } finally {
+        isLoading.value = false;
+      }
     }());
 
     return {
       job,
       jobParsedCreatedAt,
+      isLoading,
     };
   },
 };
@@ -124,8 +179,10 @@ export default {
     }
 
     .how-to-apply {
+      margin-top: 3.6rem;
+
       h5 {
-        margin: 3.6rem 0 1.6rem;
+        margin-bottom: 1.6rem;
         font: $bold 1.4rem $poppins;
         text-transform: uppercase;
         color: $tertiary;
@@ -162,7 +219,7 @@ export default {
         margin-top: 0.6rem;
       }
 
-      @include media('>=tablet') {
+      @include media(">=tablet") {
         align-items: center;
         flex-direction: row;
 
@@ -242,8 +299,10 @@ export default {
       color: $secondary;
       line-height: 2.4rem;
 
-      * {
-        margin-bottom: 1.6rem;
+      > div {
+        * {
+          margin-bottom: 1.6rem;
+        }
       }
 
       li {
