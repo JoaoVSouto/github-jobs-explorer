@@ -53,6 +53,8 @@ interface Place {
 export default defineComponent({
   name: 'SearchQueries',
   setup() {
+    const store = useStore();
+
     const places = ref<Place[]>([
       {
         id: 'remote',
@@ -76,7 +78,7 @@ export default defineComponent({
       },
     ]);
     const selectedPlace = computed(() => places.value.find((place) => place.selected));
-    const isFullTime = ref(true);
+    const isFullTime = ref(store.state.queries.full_time);
     const newPlace = ref('');
 
     const isFullTimeQuery = computed(() => ({
@@ -87,8 +89,6 @@ export default defineComponent({
       name: 'location',
       value: selectedPlace.value?.label,
     }));
-
-    const store = useStore();
 
     function setPlacesToLocalStorage() {
       localStorage.setItem('@gh-jobs/places', JSON.stringify(places.value));
@@ -103,6 +103,15 @@ export default defineComponent({
 
       places.value = parsedPlaces;
     }());
+
+    if (store.state.queries.location) {
+      const updatedPlaces = places.value.map((place) => ({
+        ...place,
+        selected: place.label === store.state.queries.location,
+      }));
+
+      places.value = updatedPlaces;
+    }
 
     function handlePlaceChange(id: string) {
       const updatedPlaces = places.value.map((place) => ({
