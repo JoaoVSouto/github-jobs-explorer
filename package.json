@@ -14,6 +14,7 @@
     "include-media": "^1.4.9",
     "lodash.chunk": "^4.2.0",
     "sass-resources-loader": "^2.1.0",
+    "ufo": "^0.7.5",
     "vue": "^3.0.0-0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
